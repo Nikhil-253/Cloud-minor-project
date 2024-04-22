@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Box icons -->
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+/>
+  <link rel="stylesheet" href="styles.css">
+  <title>My Orders</title>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <!-- Include navigation bar similar to other pages -->
+  <!-- Navigation -->
+  <div class="top-nav">
+    <div class="container d-flex">
+      <p>Order Online Or Call Us: (001) 2222-55555</p>
+      <ul class="d-flex">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="navigation">
+    <div class="nav-center container d-flex">
+      <a href="javascript:void(0)" class="logo" onclick ="redirect()"><h1>Dans</h1></a>
+
+      <ul class="nav-list d-flex">
+        <li class="nav-item">
+          <a href="javascript:void(0)" class="nav-link" onclick ="redirect()">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="" class="nav-link">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a href="#terms" class="nav-link">Terms</a>
+        </li>
+        <li class="nav-item">
+          <a href="#about" class="nav-link">About</a>
+        </li>
+        <li class="nav-item">
+          <a href="#contact" class="nav-link">Contact</a>
+        </li>
+        <li class="icons d-flex">
+          <a href="login.html" class="icon">
+            <i class="bx bx-user"></i>
+          </a>
+          <div class="icon">
+            <i class="bx bx-search"></i>
+          </div>
+          <div class="icon">
+            <i class="bx bx-heart"></i>
+            <span class="d-flex">0</span>
+          </div>
+          <a href="javascript:void(0)" class="icon" onclick ="cartredirect()">
+            <i class="bx bx-cart"></i>
+            <span class="d-flex">0</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="icons d-flex">
+        <a href="login.html" class="icon">
+          <i class="bx bx-user"></i>
+        </a>
+        <div class="icon">
+          <i class="bx bx-search"></i>
+        </div>
+        <div class="icon">
+          <i class="bx bx-heart"></i>
+          <span class="d-flex">0</span>
+        </div>
+        <a href="javascript:void(0)" class="icon" onclick ="cartredirect()">
+          <i class="bx bx-cart"></i>
+          <span class="d-flex">0</span>
+        </a>
+      </div>
+
+      <div class="hamburger">
+        <i class="bx bx-menu-alt-left"></i>
+      </div>
+    </div>
+  </div>
+  <!-- My Orders Section -->
+  <section class="my-orders">
+    <div class="container">
+      <h1>My Orders</h1>
+      <div class="order-list">
+        <!-- Orders will be dynamically added here -->
+        <!-- Iterate over products and display them -->
+        <% orders.forEach(function(product, i) { %>
+            <div class="product-item">
+                <div class="product-image">
+                    <a href="#" class="product-thumb">
+                        <!-- Use the product image URL and name -->
+                        <img src="<%= product.ImageURL %>" alt="<%= product.Name %>" />
+                    </a>
+                    <!-- Display discount if available -->
+                    <% if (product.discount) { %>
+                        <span class="discount"><%= product.discount %></span>
+                    <% } %>
+                </div>
+                <div class="product-details">
+                    <div class="product-info">
+                        <!-- Display product name and price -->
+                        <a href="#"><%= product.Name %></a>
+                        <h4>$<%= product.Price %></h4>
+                    </div>
+                    <p><strong>Quantity:</strong> <%= product.Quantity %></p>
+                    <p><strong>Description:</strong> <%= product.Description %></p>
+                    <p><strong>Status:</strong> <%= product.status %></p>
+                    <!-- Add icons or buttons as needed -->
+                    
+                    </ul>
+                </div>
+            </div>
+        <% }); %>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <!-- Include footer similar to other pages -->
+  <!-- Contact -->
+  <section class="section contact">
+    <div class="row">
+      <div class="col">
+        <h2>EXCELLENT SUPPORT</h2>
+        <p>We love our customers and they can reach us any time
+        of day we will be at your service 24/7</p>
+        <a href="" class="btn btn-1">Contact</a>
+      </div>
+      <div class="col">
+        <form action="">
+          <div>
+            <input type="email" placeholder="Email Address">
+          <a href="">Send</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="row">
+      <div class="col d-flex">
+        <h4>INFORMATION</h4>
+        <a href="">About us</a>
+        <a href="">Contact Us</a>
+        <a href="">Term & Conditions</a>
+        <a href="">Shipping Guide</a>
+      </div>
+      <div class="col d-flex">
+        <h4>USEFUL LINK</h4>
+        <a href="">Online Store</a>
+        <a href="">Customer Services</a>
+        <a href="">Promotion</a>
+        <a href="">Top Brands</a>
+      </div>
+      <div class="col d-flex">
+        <span><i class='bx bxl-facebook-square'></i></span>
+        <span><i class='bx bxl-instagram-alt' ></i></span>
+        <span><i class='bx bxl-github' ></i></span>
+        <span><i class='bx bxl-twitter' ></i></span>
+        <span><i class='bx bxl-pinterest' ></i></span>
+      </div>
+    </div>
+  </footer>
+  <script src="script.js"></script>
+  <script>
+    // Fetch orders for the current user from the server
+      const urlParams = new URLSearchParams(window.location.search);
+      const userid = urlParams.get('userid');
+    // Fetch orders for the current user from the server
+    fetch(`/myorders?userid=${userid}`) // Adjust the endpoint URL according to your server route
+      .then(response => response.json())
+      .then(data => {
+        const orderList = document.querySelector('.order-list');
+        // Loop through the fetched orders and dynamically generate HTML to display them
+        data.forEach(order => {
+          const orderItem = document.createElement('div');
+          orderItem.classList.add('order-item');
+          orderItem.innerHTML = `
+            <div class="order-info">
+              <h2>Order ID: ${order.orderId}</h2>
+              <p>Date: ${order.date}</p>
+              <p>Status: ${order.status}</p>
+            </div>
+            <div class="order-products">
+              <h3>Products:</h3>
+              <ul>
+                ${order.products.map(product => `<li>${product.name} - $${product.price}</li>`).join('')}
+              </ul>
+            </div>
+          `;
+          orderList.appendChild(orderItem);
+        });
+      })
+      .catch(error => console.error('Error fetching orders:', error));
+      // Function to get the value of a URL parameter
+      
+      function redirect(){
+        const urlParams = new URLSearchParams(window.location.search);
+        const userid = urlParams.get('userid');
+        if(userid)
+           {
+            var destinationurl = 'home2?userid=' + encodeURIComponent(userid);
+           window.location.href = destinationurl;
+           }
+           else
+           {
+            alert('username parameter not found:');
+           }
+      }
+      function cartredirect(){
+        const urlParams = new URLSearchParams(window.location.search);
+        const userid = urlParams.get('userid');
+        if(userid)
+           {
+            var destinationurl = 'usercart.html?userid=' + encodeURIComponent(userid);
+           window.location.href = destinationurl;
+           }
+           else
+           {
+            alert('username parameter not found:');
+           }
+      }
+  </script>
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css"
+/>
+  <link rel="stylesheet" href="styles.css">
+    <title>User Cart</title>
+</head>
+<body>
+    <!-- Navigation -->
+  <div class="top-nav">
+    <div class="container d-flex">
+      <p>Order Online Or Call Us: (001) 2222-55555</p>
+      <ul class="d-flex">
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="navigation">
+    <div class="nav-center container d-flex">
+      <a href="javascript:void(0)" class="logo" onclick ="redirect()"><h1>Dans</h1></a>
+
+      <ul class="nav-list d-flex">
+        <li class="nav-item">
+          <a href="javascript:void(0)" class="nav-link" onclick ="redirect()">Home</a>
+        </li>
+        <li class="nav-item">
+          <a href="product.html" class="nav-link">Shop</a>
+        </li>
+        <li class="nav-item">
+          <a href="#terms" class="nav-link">Terms</a>
+        </li>
+        <li class="nav-item">
+          <a href="#about" class="nav-link">About</a>
+        </li>
+        <li class="nav-item">
+          <a href="#contact" class="nav-link">Contact</a>
+        </li>
+        <li class="icons d-flex">
+          <a href="login.html" class="icon">
+            <i class="bx bx-user"></i>
+          </a>
+          <div class="icon">
+            <i class="bx bx-search"></i>
+          </div>
+          <div class="icon">
+            <i class="bx bx-heart"></i>
+            <span class="d-flex">0</span>
+          </div>
+          <a href="cart.html" class="icon">
+            <i class="bx bx-cart"></i>
+            <span class="d-flex">0</span>
+          </a>
+        </li>
+      </ul>
+
+      <div class="icons d-flex">
+        <a href="login.html" class="icon">
+          <i class="bx bx-user"></i>
+        </a>
+        <div class="icon">
+          <i class="bx bx-search"></i>
+        </div>
+        <div class="icon">
+          <i class="bx bx-heart"></i>
+          <span class="d-flex">0</span>
+        </div>
+        <a href="cart.html" class="icon">
+          <i class="bx bx-cart"></i>
+          <span class="d-flex">0</span>
+        </a>
+      </div>
+
+      <div class="hamburger">
+        <i class="bx bx-menu-alt-left"></i>
+      </div>
+    </div>
+  </div>
+    <h1>User Cart</h1>
+    <div id="cartItems"></div>
+    <div id="totalCartValue">Total Cart Value: $0.00</div> <!-- Total cart value field -->
+    <button onclick="proceedToPayment()">Proceed to Payment</button>
+
+    <!-- Popup modal for removing item -->
+    <div id="removeItemModal" style="display: none;" data-product-Id="">
+        <div>Item quantity reached zero. Do you want to remove it?</div>
+        <button onclick="removeItemConfirmed()">Remove</button>
+        <button onclick="hideRemoveItemModal()">Cancel</button>
+    </div>
+   <!-- Contact -->
+  <section class="section contact">
+    <div class="row">
+      <div class="col">
+        <h2>EXCELLENT SUPPORT</h2>
+        <p>We love our customers and they can reach us any time
+        of day we will be at your service 24/7</p>
+        <a href="" class="btn btn-1">Contact</a>
+      </div>
+      <div class="col">
+        <form action="">
+          <div>
+            <input type="email" placeholder="Email Address">
+          <a href="">Send</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="row">
+      <div class="col d-flex">
+        <h4>INFORMATION</h4>
+        <a href="">About us</a>
+        <a href="">Contact Us</a>
+        <a href="">Term & Conditions</a>
+        <a href="">Shipping Guide</a>
+      </div>
+      <div class="col d-flex">
+        <h4>USEFUL LINK</h4>
+        <a href="">Online Store</a>
+        <a href="">Customer Services</a>
+        <a href="">Promotion</a>
+        <a href="">Top Brands</a>
+      </div>
+      <div class="col d-flex">
+        <span><i class='bx bxl-facebook-square'></i></span>
+        <span><i class='bx bxl-instagram-alt' ></i></span>
+        <span><i class='bx bxl-github' ></i></span>
+        <span><i class='bx bxl-twitter' ></i></span>
+        <span><i class='bx bxl-pinterest' ></i></span>
+      </div>
+    </div>
+  </footer>
+    <script>
+        function redirect(){
+            const urlParams = new URLSearchParams(window.location.search);
+            const userid = urlParams.get('userid');
+            if(userid)
+               {
+                var destinationurl = 'home2?userid=' + encodeURIComponent(userid);
+               window.location.href = destinationurl;
+               }
+               else
+               {
+                alert('username parameter not found:');
+               }
+          }
+        async function fetchData() {
+            try {
+                // Extract the userid from the URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const userid = urlParams.get('userid');
+        
+                // Fetch user's cart items based on the userid
+                const response = await fetch(`/usercart?userid=${userid}`);
+                const data = await response.json();
+                displayData(data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        function displayData(data) {
+            const cartItemsDiv = document.getElementById('cartItems');
+            cartItemsDiv.innerHTML = '';
+
+            let totalCartValue = 0; // Initialize total cart value
+
+            data.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.innerHTML = `
+                    <h2>${item.Name}</h2>
+                    <p>Description: ${item.Description}</p>
+                    <p>Price: $${item.Price}</p>
+                    <p>Quantity: <span id="quantity_${item.ProductId}">${item.Quantity}</span></p>
+                    <button onclick="decreaseAndUpdate(${item.ProductId})">-</button>
+                    <button onclick="increaseQuantity(${item.ProductId})">+</button>
+                    <img src="${item.ImageURL}" alt="${item.Name}" style="max-width: 100px; max-height: 100px;">
+                    <hr>
+                `;
+                cartItemsDiv.appendChild(itemDiv);
+
+                // Calculate and update total cart value
+                totalCartValue += (item.Price * item.Quantity);
+            });
+
+            // Display total cart value
+            document.getElementById('totalCartValue').textContent = `Total Cart Value: $${totalCartValue.toFixed(2)}`;
+        }
+        
+        async function decreaseAndUpdate(productId) {
+            try {
+                const quantitySpan = document.getElementById(`quantity_${productId}`);
+                let currentQuantity = parseInt(quantitySpan.textContent);
+                if (currentQuantity > 1) {
+                    await fetch(`/decreaseQuantity/${productId}`, { method: 'PUT' });
+                } else if (currentQuantity === 1) {
+                    // Show popup modal for removing item
+                    removeItem(productId);
+                }
+                const urlParams = new URLSearchParams(window.location.search);
+                const userid = urlParams.get('userid');
+                await updateQuantityDisplay(productId, userid); // Replace 'user1' with the actual userid
+                await updateTotalCartValue(userid); // Update total cart value
+            } catch (error) {
+                console.error('Error decreasing quantity:', error);
+            }
+        }
+
+        async function increaseQuantity(productId) {
+            try {
+                await fetch(`/increaseQuantity/${productId}`, { method: 'PUT' });
+                const urlParams = new URLSearchParams(window.location.search);
+                const userid = urlParams.get('userid');
+                await updateQuantityDisplay(productId, userid);
+                await updateTotalCartValue(userid); // Update total cart value
+            } catch (error) {
+                console.error('Error increasing quantity:', error);
+            }
+        }
+
+        async function updateQuantityDisplay(productId, userid) {
+            try {
+                const response = await fetch(`/usercart?userid=${userid}`);
+                const data = await response.json();
+                const item = data.find(item => item.ProductId === productId);
+                if (item) {
+                    const quantitySpan = document.getElementById(`quantity_${productId}`);
+                    quantitySpan.textContent = item.Quantity;
+                    if (item.Quantity === 0) {
+                        // Remove the item from the HTML if quantity is zero
+                        document.getElementById(`quantity_${productId}`).parentNode.parentNode.remove();
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating quantity display:', error);
+            }
+        }
+
+        async function updateTotalCartValue(userid) {
+            try {
+                const response = await fetch(`/usercart?userid=${userid}`);
+                const data = await response.json();
+                let totalCartValue = 0;
+                data.forEach(item => {
+                    totalCartValue += (item.Price * item.Quantity);
+                });
+                document.getElementById('totalCartValue').textContent = `Total Cart Value: $${totalCartValue.toFixed(2)}`;
+            } catch (error) {
+                console.error('Error updating total cart value:', error);
+            }
+        }
+
+        function removeItemConfirmed() {
+            // Find the product ID of the item to be removed
+            const productIdToRemove = document.getElementById('removeItemModal').dataset.productId;
+            // Hide the modal
+            document.getElementById('removeItemModal').style.display = 'none';
+            // Remove the item
+            removeItem(productIdToRemove);
+        }
+
+        function removeItem(productId) {
+            try {
+                // Call the backend to remove the item from the database
+                fetch(`/removeItem/${productId}`, { method: 'DELETE' });
+                // Remove the item from the HTML
+                document.getElementById(`quantity_${productId}`).parentNode.parentNode.remove();
+            } catch (error) {
+                console.error('Error removing item:', error);
+            }
+        }
+
+        function hideRemoveItemModal() {
+            document.getElementById('removeItemModal').style.display = 'none';
+        }
+
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        async function proceedToPayment() {
+            var userid = getParameterByName('userid');
+            var totalCartValue = document.getElementById('totalCartValue').textContent;
+            totalCartValue = totalCartValue.replace('Total Cart Value: $', ''); // Remove the text to get only the numeric value
+            console.log("Total Cart Value:", totalCartValue);
+            if (userid) {
+                var destinationurl = `payments.html?userid=${encodeURIComponent(userid)}&totalCartValue=${encodeURIComponent(totalCartValue)}`;
+                window.location.href = destinationurl;
+            } else {
+                alert('User ID parameter not found');
+            }
+        }
+        
+        window.onload = fetchData;
+        
+    </script>
+</body>
+</html>
