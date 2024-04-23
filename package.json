@@ -8,5 +8,17 @@
     "mssql": "^10.0.2",
     "mysql": "^2.18.1",
     "set": "^1.1.1"
-  }
+  },
+  "name": "cloud-minor-project",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
