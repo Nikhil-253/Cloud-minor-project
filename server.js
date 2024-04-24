@@ -6,7 +6,7 @@ const mysql = require('mysql');
 const path = require('path'); // Import path module
 // Create Express app
 const app = express();
-const port = 5050;
+const port = process.env.PORT || 5050;
 
 //For connecting to product data base
 //const express = require('express');
@@ -88,8 +88,8 @@ const path = require('path');
 // Serve static files from the same directory as your server.js file
 app.use(express.static(path.join(__dirname)));
 
-app.listen(5050, () => {
-  console.log('Server is running on port 5050');
+app.listen(port, () => {
+  console.log('Server is running on port ${port}');
 });*/
 
 
@@ -310,6 +310,6 @@ app.post('/markAsOrdered', async (req, res) => {
 
 
 
-/*app.listen(5050, () => {
-    console.log('Server is running on port 5050');
+/*app.listen(port, () => {
+    console.log('Server is running on port ${port}');
 });*/

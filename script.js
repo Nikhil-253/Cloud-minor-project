@@ -28,7 +28,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     })
     .then(data => {
         if (data.success) {
-            window.location.href = `http://localhost:5050/home2?userid=${username}`; // Redirect to dashboard on successful login
+            window.location.href = `/home2?userid=${username}`; // Redirect to dashboard on successful login
         } else {
             document.getElementById('login-message').textContent = 'Invalid email, username, or password';
         }

@@ -7,7 +7,7 @@ app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
 app.set('views', path.join(__dirname));
 app.use(express.static(path.join(__dirname)));
-
+const port = process.env.PORT || 5050;
 console.log("Express and view engine set up");
 
 // Azure SQL Database connection config
@@ -64,6 +64,6 @@ app.get('/home2', async (req, res) => {
     res.render('home2.html', { products: products });
 });
 
-app.listen(5050, () => {
-    console.log('Server is running on port 5050');
+app.listen(port, () => {
+    console.log('Server is running on port ${port}');
 });
