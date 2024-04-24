@@ -140,6 +140,10 @@ function getImageUrl(imageName) {
     //console.log(`Image URL fetched: ${url}`);
     return url;
 }
+// Redirect from root URL to /home2
+app.get('/', (req, res) => {
+    res.redirect('/home2');
+  });
 
 // Route to render home page with product details
 app.get('/home2', async (req, res) => {
